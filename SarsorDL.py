@@ -38,16 +38,13 @@ def load_summarization_models():
             'base': pipeline("summarization", model="philschmid/bart-large-cnn-samsum")
         },
         'ar': {
-            'small': pipeline("summarization", model="csebuetnlp/mT5_multilingual_XLSum"),
+            'small': pipeline("summarization", model="csebuetnlp/mT5_multilingual_XLSum", tokenizer=AutoTokenizer.from_pretrained("csebuetnlp/mT5_multilingual_XLSum", use_fast=False)),
             'base': (
-                AutoTokenizer.from_pretrained("UBC-NLP/AraBART", use_auth_token=True),
+                AutoTokenizer.from_pretrained("UBC-NLP/AraBART", use_auth_token=True, use_fast=False),
                 AutoModelForSeq2SeqLM.from_pretrained("UBC-NLP/AraBART", use_auth_token=True)
             )
         }
     }
-
-summarization_models = load_summarization_models()
-
 def arabic_sentence_tokenize(text):
     endings = ['؟', '!', '.', '؛', '\n', '\r\n']
     pattern = '|'.join(map(re.escape, endings))
