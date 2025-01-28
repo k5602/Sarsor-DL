@@ -45,6 +45,9 @@ def load_summarization_models():
             )
         }
     }
+
+summarization_models = load_summarization_models()
+
 def arabic_sentence_tokenize(text):
     endings = ['؟', '!', '.', '؛', '\n', '\r\n']
     pattern = '|'.join(map(re.escape, endings))
