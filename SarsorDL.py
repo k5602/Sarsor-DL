@@ -1,5 +1,23 @@
 import streamlit as st
 import nltk
+import os
+from pathlib import Path
+
+# Setup NLTK data directory in a writable location
+try:
+    nltk_data_dir = os.path.join(os.path.expanduser('~'), 'nltk_data')
+    os.makedirs(nltk_data_dir, exist_ok=True)
+    nltk.data.path.append(nltk_data_dir)
+    
+    # Download required NLTK data
+    for resource in ['stopwords', 'punkt']:
+        try:
+            nltk.download(resource, download_dir=nltk_data_dir, quiet=True)
+        except Exception as e:
+            st.warning(f"Failed to download NLTK {resource}. Some features might be limited. Error: {str(e)}")
+except Exception as e:
+    st.warning(f"Failed to setup NLTK directory. Some features might be limited. Error: {str(e)})
+
 from nltk.corpus import stopwords
 import re
 from googletrans import Translator
@@ -25,9 +43,6 @@ os.environ["HF_HUB_DISABLE_SYMLINKS_WARNING"] = "1"
 from transformers import logging
 logging.set_verbosity_error()
 
-nltk.download('stopwords', quiet=True)
-nltk.download('punkt', quiet=True)
-
 translator = Translator()
 
 @st.cache_resource
@@ -38,9 +53,9 @@ def load_summarization_models():
             'base': pipeline("summarization", model="philschmid/bart-large-cnn-samsum")
         },
         'ar': {
-            'small': pipeline("summarization", model="csebuetnlp/mT5_multilingual_XLSum", tokenizer=AutoTokenizer.from_pretrained("csebuetnlp/mT5_multilingual_XLSum", use_fast=False)),
+            'small': pipeline("summarization", model="csebuetnlp/mT5_multilingual_XLSum"),
             'base': (
-                AutoTokenizer.from_pretrained("UBC-NLP/AraBART", use_auth_token=True, use_fast=False),
+                AutoTokenizer.from_pretrained("UBC-NLP/AraBART", use_auth_token=True),
                 AutoModelForSeq2SeqLM.from_pretrained("UBC-NLP/AraBART", use_auth_token=True)
             )
         }
