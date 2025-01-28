@@ -2,22 +2,6 @@ import streamlit as st
 import nltk
 import os
 from pathlib import Path
-
-# Setup NLTK data directory in a writable location
-try:
-    nltk_data_dir = os.path.join(os.path.expanduser('~'), 'nltk_data')
-    os.makedirs(nltk_data_dir, exist_ok=True)
-    nltk.data.path.append(nltk_data_dir)
-    
-    # Download required NLTK data
-    for resource in ['stopwords', 'punkt']:
-        try:
-            nltk.download(resource, download_dir=nltk_data_dir, quiet=True)
-        except Exception as e:
-            st.warning(f"Failed to download NLTK {resource}. Some features might be limited. Error: {str(e)}")
-except Exception as e:
-    st.warning(f"Failed to setup NLTK directory. Some features might be limited. Error: {str(e)})
-
 from nltk.corpus import stopwords
 import re
 from googletrans import Translator
@@ -35,6 +19,18 @@ from transformers import pipeline, AutoTokenizer, AutoModelForSeq2SeqLM
 import torch
 import os
 
+
+try:
+    nltk_data_dir = os.path.join(os.path.expanduser('~'), 'nltk_data')
+    os.makedirs(nltk_data_dir, exist_ok=True)
+    nltk.data.path.append(nltk_data_dir)
+    
+for resource in ['stopwords', 'punkt']:
+   try:
+    nltk.download('stopwords', quiet=True)
+    nltk.download('punkt', quiet=True)
+except Exception as e:
+    st.warning(f"Failed to setup NLTK directory. Some features might be limited. Error: {str(e)})
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 os.environ["HF_HUB_DISABLE_SYMLINKS_WARNING"] = "1"
