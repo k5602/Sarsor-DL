@@ -13,3 +13,4 @@ langdetect
 camel-tools
 spacy
 python-dotenv
+tiktoken
