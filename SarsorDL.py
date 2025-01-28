@@ -25,10 +25,8 @@ try:
     os.makedirs(nltk_data_dir, exist_ok=True)
     nltk.data.path.append(nltk_data_dir)
     
-for resource in ['stopwords', 'punkt']:
-   try:
-    nltk.download('stopwords', quiet=True)
-    nltk.download('punkt', quiet=True)
+    for resource in ['stopwords', 'punkt']:
+        nltk.download(resource, quiet=True)
 except Exception as e:
     st.warning(f"Failed to setup NLTK directory. Some features might be limited. Error: {str(e)}")
 
