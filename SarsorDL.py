@@ -30,7 +30,7 @@ for resource in ['stopwords', 'punkt']:
     nltk.download('stopwords', quiet=True)
     nltk.download('punkt', quiet=True)
 except Exception as e:
-    st.warning(f"Failed to setup NLTK directory. Some features might be limited. Error: {str(e)})
+    st.warning(f"Failed to setup NLTK directory. Some features might be limited. Error: {str(e)}")
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 os.environ["HF_HUB_DISABLE_SYMLINKS_WARNING"] = "1"
