@@ -5,7 +5,7 @@ langdetect==1.0.9
 textblob==0.15.3
 beautifulsoup4==4.12.2
 transformers==4.32.1
-torch==2.5.1  
+torch==2.5.1
 camel-tools==0.3.4
 PyMuPDF==1.21.1
 pytesseract==0.3.10
